@@ -686,7 +686,8 @@ export default class ReactGridLayout extends React.Component<Props, State> {
     if (
       isFirefox &&
       // $FlowIgnore can't figure this out
-      !e.nativeEvent.target?.classList.contains(layoutClassName)
+      // !e.nativeEvent.target?.classList.contains(layoutClassName)
+      !(!e.nativeEvent.target || !e.nativeEvent.target.classList || !e.nativeEvent.target.classList.contains(layoutClassName))
     ) {
       return false;
     }
@@ -704,7 +705,9 @@ export default class ReactGridLayout extends React.Component<Props, State> {
     } = this.props;
     // Allow user to customize the dropping item or short-circuit the drop based on the results
     // of the `onDragOver(e: Event)` callback.
-    const onDragOverResult = onDropDragOver?.(e);
+    // const onDragOverResult = onDropDragOver?.(e);
+    const onDragOverResult = typeof onDropDragOver === 'function' ? onDropDragOver(e) : undefined;
+
     if (onDragOverResult === false) {
       if (this.state.droppingDOMNode) {
         this.removeDroppingPlaceholder();

@@ -496,7 +496,10 @@ describe("Lifecycle tests", function () {
 
       const getCurrentPosition = wrapper => {
         const { x, y, w, h } = wrapper.props();
-        const positionParams = wrapper.instance()?.getPositionParams();
+        // const positionParams = wrapper.instance()?.getPositionParams();
+        const instance = wrapper.instance();
+        const positionParams = instance ? instance.getPositionParams() : undefined;
+
 
         if (!positionParams) {
           return {};
